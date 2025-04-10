@@ -1,0 +1,45 @@
+services:
+  minio:
+    container_name: minio
+    image: 'bitnami/minio:latest'
+    volumes:
+      - 'minio_data:/data'
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+      MINIO_USE_SSL: "${MINIO_USE_SSL}"
+      MINIO_DEFAULT_BUCKETS: "${MINIO_BUCKET_NAME}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  postgres:
+    container_name: postgres_db
+    image: 'postgres:15-alpine'
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "dragdrop_api"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "drag_drop_files"
+      TZ: UTC
+      PGTZ: UTC
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql_scripts:/docker-entrypoint-initdb.d/
+    restart: unless-stopped
+    command: >
+      bash -c "
+      /usr/local/bin/docker-entrypoint.sh postgres -c 'listen_addresses=*' &
+      sleep 5;
+      psql -h localhost -U dragdrop_api -d drag_drop_files -f /docker-entrypoint-initdb.d/init.sql
+      "
+
+volumes:
+  minio_data:
+  postgres_data:
