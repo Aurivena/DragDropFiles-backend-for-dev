@@ -24,9 +24,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: "dragdrop_api"
-      POSTGRES_PASSWORD: "1234"
-      POSTGRES_DB: "drag_drop_files"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
       TZ: UTC
       PGTZ: UTC
     volumes:
@@ -37,7 +37,7 @@ services:
       bash -c "
       /usr/local/bin/docker-entrypoint.sh postgres -c 'listen_addresses=*' &
       sleep 5;
-      psql -h localhost -U dragdrop_api -d drag_drop_files -f /docker-entrypoint-initdb.d/init.sql
+      psql -h localhost -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -f /docker-entrypoint-initdb.d/init.sql
       "
 
 volumes:
