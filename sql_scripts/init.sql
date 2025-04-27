@@ -1,10 +1,12 @@
 CREATE TABLE "File"(
-   id varchar(32) PRIMARY KEY,
-   date_created date NOT NULL ,
+   id varchar PRIMARY KEY,
+   name varchar NOT NULL ,
+   data_base64 varchar NOT NULL ,
+   session varchar NOT NULL ,
+   password varchar,
    date_deleted date,
-   count_download int,
-   count_discoveries int,
-   count_day int
+   count_download int
 );
+
 
 CREATE USER dragdrop_api WITH PASSWORD '1234';
