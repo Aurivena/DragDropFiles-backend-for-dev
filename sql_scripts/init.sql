@@ -9,5 +9,3 @@ CREATE TABLE "File"(
 );
 
 CREATE UNIQUE INDEX unique_session_name ON "File"(session, name);
-
-CREATE USER dragdrop_api WITH PASSWORD '1234';
