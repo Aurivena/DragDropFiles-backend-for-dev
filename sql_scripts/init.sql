@@ -9,3 +9,4 @@ CREATE TABLE "File"(
 );
 
 CREATE UNIQUE INDEX unique_session_name ON "File"(session, name);
+
