@@ -1,6 +1,6 @@
 services:
   minio:
-    container_name: minio
+    container_name: minio_bucket
     image: 'bitnami/minio:latest'
     volumes:
       - 'minio_data:/data'
@@ -19,7 +19,7 @@ services:
       retries: 3
 
   postgres:
-    container_name: postgres_db
+    container_name: postgres_database
     image: 'postgres:15-alpine'
     ports:
       - "5433:5432"
@@ -31,7 +31,6 @@ services:
       PGTZ: UTC
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./sql_scripts:/docker-entrypoint-initdb.d/
     restart: unless-stopped
 
 volumes:
