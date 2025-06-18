@@ -3,15 +3,44 @@
 make restart
 ```
 
-### Для работы требуется .env файл
+### .env
 
 ```
-MINIO_ROOT_USER=юзер
-MINIO_ROOT_PASSWORD=пароль
-MINIO_USE_SSL=буловое значение
-MINIO_BUCKET_NAME=название
+MINIO_ROOT_USER=answer-minio-user
+MINIO_ROOT_PASSWORD=answer-minio-password
+MINIO_USE_SSL=false
+MINIO_BUCKET_NAME=answer-minio-bucket
 
-POSTGRES_USER=юзер
-POSTGRES_PASSWORD=пароль
-POSTGRES_DB=название
+POSTGRES_USER=answer_postgres_user
+POSTGRES_PASSWORD=answer_postgres_password
+POSTGRES_DB=answer_postgres_database
+
+VITE_API_URL=http://localhost:1941
+
+API_CONFIG_FILE_PATH=./config.json
+```
+### config.json 
+```
+{
+  "server": {
+    "server_port": "1941",
+    "server_mode": "development",
+    "server_domain": "http://localhost"
+  },
+  "business-database": {
+    "db_password":"answer_postgres_password",
+    "db_host": "postgres",
+    "db_port": "5432",
+    "db_username":"answer_postgres_user",
+    "db_name":"answer_postgres_database",
+    "db_ssl_mode": "disable"
+  },
+  "minio": {
+    "endpoint":"minio:9000",
+    "minio_root_user":"answer-minio-user",
+    "minio_root_password":"answer-minio-password",
+    "minio_use_ssl": false,
+    "minio_bucket_name":"answer-minio-bucket"
+  }
+}
 ```

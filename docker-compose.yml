@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   minio:
     container_name: minio_bucket
@@ -32,6 +34,58 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB -p 5432"] # Проверяем готовность БД внутри контейнера на 5432
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  backend:
+    container_name: backend_go
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - "1941:1941"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+      MINIO_BUCKET_NAME: "${MINIO_BUCKET_NAME}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:1941/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ${API_CONFIG_FILE_PATH:-/dev/null}:/configs/config.json
+
+  frontend:
+    container_name: frontend_react
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_URL: "${VITE_API_URL}"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   minio_data:
