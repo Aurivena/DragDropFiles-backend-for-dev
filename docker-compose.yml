@@ -45,6 +45,8 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+      args:
+        REPO_URL_BACKEND: ${REPO_URL_BACKEND}
     ports:
       - "8080:8080"
     depends_on:
@@ -75,6 +77,7 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: "${VITE_API_URL}"
+        REPO_URL_FRONT: ${REPO_URL_FRONT}
     ports:
       - "80:80"
 

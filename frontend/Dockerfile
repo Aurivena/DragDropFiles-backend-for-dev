@@ -5,14 +5,14 @@ RUN apk add --no-cache git
 
 WORKDIR /app
 ARG COMMIT_SHA=HEAD
-ARG REPO=https://github.com/Aurivena/f.git
-# --- ДОБАВЛЕНО/ИЗМЕНЕНО ---
+ARG REPO_URL_FRONT
+ENV REPO_URL_FRONT=${REPO_URL_FRONT}
+
 ARG VITE_API_URL
 ENV VITE_API_URL=${VITE_API_URL}
-# --- КОНЕЦ ДОБАВЛЕНО/ИЗМЕНЕНО ---
 
 RUN --mount=type=cache,target=/tmp/git \
-    git clone --depth 1 $REPO .
+    git clone --depth 1 $REPO_URL_FRONT .
 
 RUN --mount=type=cache,target=/root/.npm \
     npm ci --prefer-offline --no-audit --progress=false && \

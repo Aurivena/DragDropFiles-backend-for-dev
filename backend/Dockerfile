@@ -5,11 +5,12 @@ RUN apk add --no-cache git
 ENV GOPROXY=https://proxy.golang.org,direct
 WORKDIR /app
 
-ARG REPO_URL=https://github.com/Aurivena/DragDropFile-API.git
+ARG REPO_URL_BACKEND
+ENV REPO_URL_BACKEND=${REPO_URL_BACKEND}
 ARG COMMIT_SHA=HEAD
 
-RUN git clone --depth 1 ${REPO_URL} . || \
-    (git clone ${REPO_URL} . && git checkout ${COMMIT_SHA})
+RUN git clone --depth 1 ${REPO_URL_BACKEND} . || \
+    (git clone ${REPO_URL_BACKEND} . && git checkout ${COMMIT_SHA})
 
 RUN test -f go.sum || go mod tidy
 RUN go mod download

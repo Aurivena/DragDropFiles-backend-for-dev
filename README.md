@@ -17,6 +17,9 @@ POSTGRES_DB=answer_postgres_database
 
 VITE_API_URL=http://localhost:8080
 
+REPO_URL_BACKEND=https://github.com/Aurivena/DragDropFile-API.git
+REPO_URL_FRONT=https://github.com/Aurivena/f.git
+
 API_CONFIG_FILE_PATH=./config.json
 ```
 ### config.json 
