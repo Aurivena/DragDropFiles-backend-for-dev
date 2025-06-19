@@ -46,7 +46,7 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     ports:
-      - "1941:1941"
+      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -73,10 +73,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: "${VITE_API_URL}"
     ports:
       - "80:80"
-    environment:
-      VITE_API_URL: "${VITE_API_URL}"
+
     depends_on:
       - backend
     restart: unless-stopped

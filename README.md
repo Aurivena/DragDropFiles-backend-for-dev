@@ -15,7 +15,7 @@ POSTGRES_USER=answer_postgres_user
 POSTGRES_PASSWORD=answer_postgres_password
 POSTGRES_DB=answer_postgres_database
 
-VITE_API_URL=http://localhost:1941
+VITE_API_URL=http://localhost:8080
 
 API_CONFIG_FILE_PATH=./config.json
 ```
@@ -23,7 +23,7 @@ API_CONFIG_FILE_PATH=./config.json
 ```
 {
   "server": {
-    "server_port": "1941",
+    "server_port": "8080",
     "server_mode": "development",
     "server_domain": "http://localhost"
   },

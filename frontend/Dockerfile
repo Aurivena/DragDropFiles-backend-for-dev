@@ -5,7 +5,11 @@ RUN apk add --no-cache git
 
 WORKDIR /app
 ARG COMMIT_SHA=HEAD
-ARG REPO=https://github.com/DK-0x3/Filescent.git
+ARG REPO=https://github.com/Aurivena/f.git
+# --- ДОБАВЛЕНО/ИЗМЕНЕНО ---
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+# --- КОНЕЦ ДОБАВЛЕНО/ИЗМЕНЕНО ---
 
 RUN --mount=type=cache,target=/tmp/git \
     git clone --depth 1 $REPO .

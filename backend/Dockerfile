@@ -25,5 +25,5 @@ WORKDIR /app
 COPY --from=builder /app/main /app/main
 COPY --from=builder /app/migrations /app/migrations
 
-EXPOSE 1941
+EXPOSE 8080
 CMD ["./main"]
